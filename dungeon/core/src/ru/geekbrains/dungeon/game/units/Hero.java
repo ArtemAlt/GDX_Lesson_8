@@ -18,9 +18,11 @@ import ru.geekbrains.dungeon.screens.ScreenManager;
 public class Hero extends Unit {
     private String name;
 
+
     private Group guiGroup;
     private Label hpLabel;
     private Label goldLabel;
+    private Label satietyLabel;
 
     public Hero(GameController gc) {
         super(gc, 1, 1, 10, "Hero");
@@ -43,6 +45,10 @@ public class Hero extends Unit {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             tryToEndTurn();
         }
+        if (stats.satiety<0){stats.hp--;}
+        if (stats.hp<=0){
+            ScreenManager.getInstance().changeScreen(ScreenManager.ScreenType.GAMEOVER);
+        }
         updateGui();
     }
 
@@ -60,6 +66,9 @@ public class Hero extends Unit {
         stringHelper.setLength(0);
         stringHelper.append(gold);
         goldLabel.setText(stringHelper);
+        stringHelper.setLength(0);
+        stringHelper.append(stats.satiety);
+        satietyLabel.setText(stringHelper);
     }
 
     public void createGui() {
@@ -70,12 +79,15 @@ public class Hero extends Unit {
         Label.LabelStyle labelStyle = new Label.LabelStyle(font24, Color.WHITE);
         this.hpLabel = new Label("", labelStyle);
         this.goldLabel = new Label("", labelStyle);
+        this.satietyLabel = new Label("", labelStyle);
         this.hpLabel.setPosition(155, 30);
         this.goldLabel.setPosition(400, 30);
+        this.satietyLabel.setPosition(910, 30);
         Image backgroundImage = new Image(Assets.getInstance().getAtlas().findRegion("upperPanel"));
         this.guiGroup.addActor(backgroundImage);
         this.guiGroup.addActor(hpLabel);
         this.guiGroup.addActor(goldLabel);
+        this.guiGroup.addActor(satietyLabel);
         this.guiGroup.setPosition(0, ScreenManager.WORLD_HEIGHT - 60);
 
         skin.dispose();

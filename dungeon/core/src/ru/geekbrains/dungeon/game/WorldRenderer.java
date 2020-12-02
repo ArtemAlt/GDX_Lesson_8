@@ -17,6 +17,7 @@ public class WorldRenderer {
     private BitmapFont font24;
     private StringBuilder stringHelper;
 
+
     public WorldRenderer(GameController gc, SpriteBatch batch) {
         this.gc = gc;
         this.batch = batch;
@@ -46,6 +47,8 @@ public class WorldRenderer {
         gc.getProjectileController().render(batch);
         gc.getInfoController().render(batch, font18);
         gc.getEffectController().render(batch);
+
+
         batch.end();
 
         float camX = ScreenManager.getInstance().getCamera().position.x;

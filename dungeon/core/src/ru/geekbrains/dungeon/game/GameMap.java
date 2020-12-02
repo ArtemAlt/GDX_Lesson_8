@@ -14,19 +14,24 @@ public class GameMap {
     public enum DropType {
         NONE, GOLD
     }
+    public enum FoodType{
+        NONE, APPLE
+    }
 
     private class Cell {
         CellType type;
-
         DropType dropType;
+        FoodType foodType;
+        int foodAmount;
         int dropPower;
-
         int index;
+
 
         public Cell() {
             type = CellType.GRASS;
             dropType = DropType.NONE;
             index = 0;
+            foodType = FoodType.NONE;
         }
 
         public void changeType(CellType to) {
@@ -53,7 +58,12 @@ public class GameMap {
     private Cell[][] data;
     private TextureRegion grassTexture;
     private TextureRegion goldTexture;
+    private TextureRegion appleTexture;
     private TextureRegion[] treesTextures;
+
+
+
+
 
     public GameMap() {
         this.data = new Cell[CELLS_X][CELLS_Y];
@@ -71,6 +81,7 @@ public class GameMap {
         this.grassTexture = Assets.getInstance().getAtlas().findRegion("grass");
         this.goldTexture = Assets.getInstance().getAtlas().findRegion("chest").split(60, 60)[0][0];
         this.treesTextures = Assets.getInstance().getAtlas().findRegion("trees").split(60, 90)[0];
+        this.appleTexture = Assets.getInstance().getAtlas().findRegion("apple2");
     }
 
     public boolean isCellPassable(int cx, int cy) {
@@ -96,9 +107,14 @@ public class GameMap {
             for (int j = CELLS_Y - 1; j >= 0; j--) {
                 if (data[i][j].type == CellType.TREE) {
                     batch.draw(treesTextures[data[i][j].index], i * CELL_SIZE, j * CELL_SIZE);
-                }
+                     generateFood(i,j,10);
+
+                 }
                 if (data[i][j].dropType == DropType.GOLD) {
                     batch.draw(goldTexture, i * CELL_SIZE, j * CELL_SIZE);
+                }
+                if (data[i][j].foodType == FoodType.APPLE) {
+                    batch.draw(appleTexture, i * CELL_SIZE+30, j * CELL_SIZE+30);
                 }
             }
         }
@@ -116,6 +132,11 @@ public class GameMap {
             }
         }
     }
+    public void generateFood(int cellX, int cellY, int foodAmount){
+        if (MathUtils.random() < 0.25f){
+        data[cellX][cellY].foodType = FoodType.APPLE;
+        data[cellX][cellY].foodAmount = foodAmount;}
+    }
 
     public boolean hasDropInCell(int cellX, int cellY) {
         return data[cellX][cellY].dropType != DropType.NONE;
@@ -131,5 +152,29 @@ public class GameMap {
         }
         currentCell.dropType = DropType.NONE;
         currentCell.dropPower = 0;
+    }
+    public void checkAndTakeFood(Unit unit) {
+
+        for (int i = 0; i <2 ; i++) {
+            for (int j = 0; j < 2; j++) {
+                System.out.println("FOOOOD searching!!!");
+                Cell currentCell = data[unit.getCellX()+i][unit.getCellY()+j];
+
+                if (currentCell.foodType== FoodType.APPLE) {
+                    unit.eatFood(currentCell.foodAmount);
+                    System.out.println("FOOOOD eaten!!!");
+                }
+                currentCell.foodType = FoodType.NONE;
+                currentCell.foodAmount = 0;
+
+            }
+
+        }
+
+
+
+
+
+
     }
 }
