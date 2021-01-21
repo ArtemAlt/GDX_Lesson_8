@@ -18,6 +18,7 @@ public class EffectController extends ObjectPool<Effect> {
         for (int i = 0; i < activeList.size(); i++) {
             Effect effect = activeList.get(i);
             batch.draw(effect.getCurrentFrame(), effect.getPosition().x - 30, effect.getPosition().y - 30);
+
         }
     }
 

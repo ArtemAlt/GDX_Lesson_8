@@ -77,7 +77,7 @@ public abstract class Unit implements Poolable {
 
     public Unit(GameController gc, int cellX, int cellY, int hpMax, String textureName) {
         this.gc = gc;
-        this.stats = new Stats(1, hpMax, 1, 5, 1, 5);
+        this.stats = new Stats(1, hpMax, 1, 5, 1, 5,10);
         this.cellX = cellX;
         this.cellY = cellY;
         this.targetX = cellX;
@@ -94,6 +94,9 @@ public abstract class Unit implements Poolable {
 
     public void addGold(int amount) {
         gold += amount;
+    }
+    public void eatFood(int amount) {
+        stats.satiety+= amount;
     }
 
     public void cure(int amount) {
@@ -146,6 +149,7 @@ public abstract class Unit implements Poolable {
             return;
         }
         if (stats.movePoints > 0 && Math.abs(argCellX - cellX) + Math.abs(argCellY - cellY) == 1) {
+            stats.satiety--;
             targetX = argCellX;
             targetY = argCellY;
             currentDirection = Direction.getMoveDirection(cellX, cellY, targetX, targetY);
@@ -168,6 +172,7 @@ public abstract class Unit implements Poolable {
             }
         }
         stats.attackPoints--;
+        stats.satiety --;
 
         gc.getEffectController().setup(target.getCellCenterX(), target.getCellCenterY(), weapon.getFxIndex());
     }
@@ -183,6 +188,7 @@ public abstract class Unit implements Poolable {
                 cellY = targetY;
                 stats.movePoints--;
                 gc.getGameMap().checkAndTakeDrop(this);
+                gc.getGameMap().checkAndTakeFood(this);
             }
         }
     }

@@ -2,8 +2,6 @@ package ru.geekbrains.dungeon.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,13 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.PropertiesUtils;
 import lombok.Data;
 import ru.geekbrains.dungeon.helpers.Assets;
 import ru.geekbrains.dungeon.screens.ScreenManager;
-
-import java.io.IOException;
 
 @Data
 public class GameController {
@@ -45,6 +39,7 @@ public class GameController {
     private int round;
     private float worldTimer;
 
+
     public GameController(SpriteBatch batch) {
         this.batch = batch;
         this.stage = new Stage(ScreenManager.getInstance().getViewport(), batch);
@@ -60,6 +55,7 @@ public class GameController {
         this.round = 1;
         this.createGui();
         this.stage.addActor(unitController.getHero().getGuiGroup());
+
 //        this.music = Gdx.audio.newMusic(Gdx.files.internal("music/theme.mp3"));
 //        this.music.setLooping(true);
 //        this.music.play();
@@ -87,7 +83,6 @@ public class GameController {
         unitController.update(dt);
         infoController.update(dt);
         effectController.update(dt);
-
         stage.act(dt);
     }
 

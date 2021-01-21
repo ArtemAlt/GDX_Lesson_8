@@ -6,15 +6,17 @@ import lombok.Getter;
 @Getter
 public class Stats {
     int level;
-    int hp, maxHp;
+    int hp, maxHp,satiety,maxSatiety;
     int attackPoints, minAttackPoints, maxAttackPoints;
     int movePoints, minMovePoints, maxMovePoints;
     int visionRadius;
 
-    public Stats(int level, int maxHp, int minAttackPoints, int maxAttackPoint, int minMovePoints, int maxMovePoint) {
+    public Stats(int level, int maxHp, int minAttackPoints, int maxAttackPoint, int minMovePoints, int maxMovePoint, int maxSatiety) {
         this.level = level;
         this.maxHp = maxHp;
         this.hp = this.maxHp;
+        this.maxSatiety = maxSatiety;
+        this.satiety = this.maxSatiety;
         this.minAttackPoints = minAttackPoints;
         this.maxAttackPoints = maxAttackPoint;
         this.minMovePoints = minMovePoints;
@@ -36,6 +38,10 @@ public class Stats {
 
     public void fullRestoreHp() {
         hp = maxHp;
+    }
+    public void fullRegeneration(){
+        hp = maxHp;
+        satiety = maxSatiety;
     }
 
     public void resetPoints() {

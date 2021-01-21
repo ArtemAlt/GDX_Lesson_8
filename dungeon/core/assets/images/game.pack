@@ -80,10 +80,24 @@ hp
   orig: 60, 8
   offset: 0, 0
   index: -1
+apple2
+  rotate: false
+  xy: 64, 480
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
 projectile
   rotate: false
   xy: 304, 388
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+apple
+  rotate: false
+  xy: 304, 406
+  size: 10, 10
+  orig: 10, 10
   offset: 0, 0
   index: -1
